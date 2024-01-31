@@ -1,15 +1,38 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href= "{% static 'contact/css/style.css' %}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'contact/css/style.css' %}" />
     <title>Agenda</title>
-</head>
-<body>
+  </head>
+  <header class="header">
+    <h1 class="header-heading"><a href="{% url 'contact:index' %}" class="header-link">Agenda</a></h1>
+    <nav class="menu">
+      <ul class="menu-list">
+        <li>
+          <a href="#" class="menu-link">Link 1</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link">Link 2</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link">Link 3</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="search">
+      <form action="" method="get">
+        <input type="text" name="q" id="search" class="search-input" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+  <body>
     <main class="content">
-        {% block content %}{% endblock content %}
+      {% block content %}
+
+      {% endblock %}
     </main>
-</body>
+  </body>
 </html>
