@@ -1,22 +1,62 @@
-from django.core.paginator import Paginator
-from django.db.models import Q
+from typing import Any
+
+from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 from django.shortcuts import get_object_or_404, redirect, render
 
 from contact.models import Contact
 
 
-def create(request):
-    # contacts = Contact.objects\
-    #     .filter(show=True)\
-    #     .order_by('-id')
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = (
+            'first_name',
+            'last_name',
+            'phone',
+            'email',
+        )
 
-    # paginator = Paginator(contacts, 10)
-    # page_number = request.GET.get("page")
-    # page_obj = paginator.get_page(page_number)
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        print(cleaned_data)
+
+        # self.add_error(
+        #     'first_name',
+        #     ValidationError(
+        #         'Mensagem de erro',
+        #         code='invalid',
+        #     ),
+        # )
+
+        # self.add_error(
+        #     None,
+        #     ValidationError(
+        #         'Mensagem de erro',
+        #         code='invalid',
+        #     ),
+        # )
+
+        return super().clean()
+
+
+def create(request):
+    if request.method == 'POST':
+
+        context = {
+            'site_title': 'Cria contatos',
+            'form': ContactForm(data=request.POST)
+        }
+
+        return render(
+            request,
+            'contact/create.html',
+            context,
+        )
 
     context = {
-        # 'page_obj': page_obj,
         'site_title': 'Cria contatos',
+        'form': ContactForm()
     }
 
     return render(
