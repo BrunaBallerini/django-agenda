@@ -8,6 +8,8 @@ urlpatterns = [
     path('contact/<int:contact_id>/detail/',
          views.contact, name='contact'),  # read
     path('contact/create/', views.create, name='create'),  # create
+    path('contact/<int:contact_id>/update/',
+         views.update, name='update'),  # update
     path('search/', views.search, name='search'),
     path('', views.index, name='index'),
 ]
