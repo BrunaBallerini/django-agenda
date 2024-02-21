@@ -10,7 +10,7 @@ def create(request):
 
     if request.method == 'POST':
 
-        form = ContactForm(data=request.POST)
+        form = ContactForm(request.POST, request.FILES)
 
         context = {
             'site_title': 'Cria contatos',
@@ -47,7 +47,7 @@ def update(request, contact_id):
 
     if request.method == 'POST':
 
-        form = ContactForm(data=request.POST, instance=contact)
+        form = ContactForm(request.POST, request.FILES, instance=contact)
 
         context = {
             'site_title': 'Atualiza contatos',
