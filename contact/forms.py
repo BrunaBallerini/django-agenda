@@ -12,7 +12,16 @@ class ContactForm(forms.ModelForm):
             }
         ),
         label='Primeiro Nome',
-        help_text='Texto de ajuda'
+    )
+
+    description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'Escreva sua descrição aqui',
+            }
+        ),
+        label='Descrição',
+        help_text='Escreva sua descrição.'
     )
 
     class Meta:
@@ -22,17 +31,28 @@ class ContactForm(forms.ModelForm):
             'last_name',
             'phone',
             'email',
+            'description',
+            'category',
         )
-        # widgets = {
-        #     'first_name': forms.TextInput(
-        #         attrs={
-        #             'placeholder': 'Escreva seu nome aqui',
-        #         }
-        #     ),
-        # }
+        widgets = {
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Escreva seu último nome aqui',
+                }
+            ),
+            'phone': forms.TextInput(
+                attrs={
+                    'placeholder': 'Escreva seu número de celular aqui.',
+                }
+            ),
+            'email': forms.TextInput(
+                attrs={
+                    'placeholder': 'Escreva seu e-mail aqui',
+                }
+            ),
+        }
 
     def clean(self):
-        # cleaned_data = self.cleaned_data
         first_name = self.cleaned_data.get('first_name')
         last_name = self.cleaned_data.get('last_name')
 

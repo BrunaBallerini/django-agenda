@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from contact.forms import ContactForm
 
@@ -6,10 +6,18 @@ from contact.forms import ContactForm
 def create(request):
     if request.method == 'POST':
 
+        form = ContactForm(data=request.POST)
+
         context = {
             'site_title': 'Cria contatos',
-            'form': ContactForm(data=request.POST)
+            'form': form,
         }
+
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.show = True
+            contact.save()
+            return redirect('contact:index')
 
         return render(
             request,
