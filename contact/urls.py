@@ -14,7 +14,11 @@ urlpatterns = [
          views.delete, name='delete'),  # delete
 
     path('user/create/', views.register,
-         name='register'),  # create
+         name='register'),  # create user
+    path('user/login/', views.login_view,
+         name='login'),  # login user
+    path('user/logout/', views.logout_view,
+         name='logout'),  # login user
 
     path('search/', views.search, name='search'),
     path('', views.index, name='index'),

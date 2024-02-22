@@ -1,5 +1,6 @@
-from django.contrib import messages
-from django.shortcuts import render
+from django.contrib import auth, messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render
 
 from contact.forms import RegisterForm
 
@@ -15,7 +16,7 @@ def register(request):
             messages.success(request, 'User created successfully')
 
     context = {
-        'site_title': 'Cria usuário',
+        'site_title': 'Register user',
         'form': form,
     }
 
@@ -24,3 +25,33 @@ def register(request):
         'contact/register.html',
         context,
     )
+
+
+def login_view(request):
+    form = AuthenticationForm(request)
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            auth.login(request, user)
+            messages.success(request, 'Login successful')
+            return redirect('contact:index')
+        messages.error(request, 'Invalid login')
+
+    context = {
+        'site_title': 'Login',
+        'form': form,
+    }
+
+    return render(
+        request,
+        'contact/login.html',
+        context,
+    )
+
+
+def logout_view(request):
+    auth.logout(request)
+    return redirect('contact:login')

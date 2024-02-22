@@ -13,7 +13,7 @@ def create(request):
         form = ContactForm(request.POST, request.FILES)
 
         context = {
-            'site_title': 'Cria contatos',
+            'site_title': 'Create contacts',
             'form': form,
             'form_action': form_action,
         }
@@ -50,7 +50,7 @@ def update(request, contact_id):
         form = ContactForm(request.POST, request.FILES, instance=contact)
 
         context = {
-            'site_title': 'Atualiza contatos',
+            'site_title': 'Update contacts',
             'form': form,
             'form_action': form_action,
         }
@@ -66,7 +66,7 @@ def update(request, contact_id):
         )
 
     context = {
-        'site_title': 'Atualiza contatos',
+        'site_title': 'Update contacts',
         'form': ContactForm(instance=contact),
         'form_action': form_action,
     }
@@ -89,7 +89,7 @@ def delete(request, contact_id):
 
     context = {
         'contact': contact,
-        'site_title': 'Apagar contato',
+        'site_title': 'Delete contacts',
         'confirmation': confirmation,
     }
 
