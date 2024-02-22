@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from contact.models import Contact
@@ -8,20 +10,19 @@ class ContactForm(forms.ModelForm):
     first_name = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Escreva seu nome aqui',
+                'placeholder': 'Write your first name here',
             }
         ),
-        label='Primeiro Nome',
     )
 
     description = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                'placeholder': 'Escreva sua descrição aqui',
+                'placeholder': 'Write your description here',
             }
         ),
-        label='Descrição',
-        help_text='Escreva sua descrição.'
+        label='Description',
+        help_text='Write something about youself.'
     )
 
     picture = forms.ImageField(
@@ -46,17 +47,17 @@ class ContactForm(forms.ModelForm):
         widgets = {
             'last_name': forms.TextInput(
                 attrs={
-                    'placeholder': 'Escreva seu último nome aqui',
+                    'placeholder': 'Write your last name here',
                 }
             ),
             'phone': forms.TextInput(
                 attrs={
-                    'placeholder': 'Escreva seu número de celular aqui.',
+                    'placeholder': 'Write your phone number here',
                 }
             ),
             'email': forms.TextInput(
                 attrs={
-                    'placeholder': 'Escreva seu e-mail aqui',
+                    'placeholder': 'Write your email here',
                 }
             ),
         }
@@ -66,7 +67,7 @@ class ContactForm(forms.ModelForm):
         last_name = self.cleaned_data.get('last_name')
 
         if first_name == last_name:
-            msg = 'Primeiro nome não pode ser igual ao último nome.'
+            msg = 'The first name cannot be the same as the las name.'
             self.add_error(
                 'last_name',
                 ValidationError(
@@ -84,8 +85,49 @@ class ContactForm(forms.ModelForm):
             self.add_error(
                 'first_name',
                 ValidationError(
-                    'Não digite ABC maiúsculo',
+                    'Do not type ABC',
                     code='invalid',
                 )
             )
         return first_name
+
+
+class RegisterForm(UserCreationForm):
+    first_name = forms.CharField(
+        required=True,
+    )
+
+    last_name = forms.CharField(
+        required=True,
+    )
+
+    email = forms.EmailField(
+        required=True,
+        error_messages={
+            'required': 'Este campo é obrigatório'
+        }
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'username',
+            'password1',
+            'password2',
+        )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if User.objects.filter(email=email).exists():
+            self.add_error(
+                'email',
+                ValidationError(
+                    'E-mail já existente',
+                    code='invalid',
+                )
+            )
+        return email
