@@ -15,10 +15,12 @@ urlpatterns = [
 
     path('user/create/', views.register,
          name='register'),  # create user
+    path('user/update/', views.user_update,
+         name='user_update'),  # update user
     path('user/login/', views.login_view,
          name='login'),  # login user
     path('user/logout/', views.logout_view,
-         name='logout'),  # login user
+         name='logout'),  # logout user
 
     path('search/', views.search, name='search'),
     path('', views.index, name='index'),
