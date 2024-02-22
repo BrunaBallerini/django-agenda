@@ -1,13 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from contact.models import Contact
 
+# def index(request):
+#     contacts = Contact.objects\
+#         .filter(show=True)\
+#         .order_by('-id')
 
+
+@login_required(login_url='contact:login')
 def index(request):
     contacts = Contact.objects\
-        .filter(show=True)\
+        .filter(show=True, owner=request.user)\
         .order_by('-id')
 
     paginator = Paginator(contacts, 10)

@@ -23,15 +23,17 @@ class ContactForm(forms.ModelForm):
             }
         ),
         label='Description',
-        help_text='Write something about youself.'
+        help_text='Write something about youself.',
+        required=False,
     )
 
     picture = forms.ImageField(
+        required=False,
         widget=forms.FileInput(
             attrs={
                 'accept': 'image/*',
             }
-        ),
+        )
     )
 
     class Meta:
